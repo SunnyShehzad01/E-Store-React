@@ -10,7 +10,7 @@ export const ContextProvider = (props) => {
     const [categories, setCategories] = useState([])
     const [cartItems, setCartItems] = useState({})
     const cart = JSON.parse(localStorage.getItem('cart')) || []
-
+    const [singleItem, setSingleItem] = useState([])
 
     const navigation = [
         {
@@ -36,10 +36,22 @@ export const ContextProvider = (props) => {
         const fetchProducts = async() => {
             const response = await fetch('https://fakestoreapi.com/products')
             const data = await response.json()
-            // console.log(data);
+            console.log(data);
             setProducts(data)
         }
         fetchProducts()
+    }, [])
+
+    //Fetch a Single Product
+    useEffect(()=>{
+      const fetchProducts = async() => {
+        const randomItem = Math.floor((Math.random() * 5) + 1)
+        const response = await fetch(`https://fakestoreapi.com/products/${randomItem}`)
+        const data = await response.json()
+        // console.log(data);
+        setSingleItem(data)
+      }
+      fetchProducts()
     }, [])
 
     //Fetching all Categories
@@ -113,7 +125,17 @@ export const ContextProvider = (props) => {
   }
 
 
-    const contextValue = {products, navigation, categories, cartItems, setCartItems, handleCart, handleDecrement, handleIncrement, handleRemoveItem}
+    const contextValue = {  products, 
+                            navigation, 
+                            categories, 
+                            cartItems, 
+                            setCartItems, 
+                            handleCart, 
+                            handleDecrement, 
+                            handleIncrement, 
+                            handleRemoveItem, 
+                            singleItem
+                          }
 
     return (
         <dataContext.Provider value={contextValue}>
