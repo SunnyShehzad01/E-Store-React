@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { useNavigate, useParams, redirect } from "react-router-dom";
+import app from "../firebase";
 
 export const dataContext = createContext(null)
 
@@ -11,6 +12,7 @@ export const ContextProvider = (props) => {
     const [cartItems, setCartItems] = useState({})
     const cart = JSON.parse(localStorage.getItem('cart')) || []
     const [singleItem, setSingleItem] = useState([])
+    const [currentUser, setCurrentUser] = useState(null)
 
     const navigation = [
         {
@@ -30,6 +32,10 @@ export const ContextProvider = (props) => {
           path: '/contact'
         }
       ]
+//Firebse Auth
+      // useEffect(()=>{
+      //   app.auth().onAuthStateChanged(currentUser)
+      // }, [])
 
     //Fetching All products
     useEffect(()=>{
